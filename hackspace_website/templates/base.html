@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+	<head>
+		<!-- set the encoding of your site -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" href="{{url_for('static',filename='images/logo1.1_notext.svg')}}" />
+		{% block metatags %}
+        {% endblock %}
+
+
+
+		<!-- Custom styles for this template -->
+		<link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+
+	</head>
+	<body>
+		<header class="header">
+		{% include "navbar.html" %}
+		</header>
+
+		<main class="main">
+		{% block contents %}
+		{% endblock %}
+		</main>
+
+		<footer class="footer">
+		{% include "footer.html" %}
+		</footer>
+	</body>
+</html>

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block metatags %}
+<title>Contact Us - Bristol Hackspace</title>
+<meta name="description" content="Bristol Hackspace is a community of people who run a workshop and creative space together. We are a place for people to share ideas, knowledge, and tools, and to work on projects in a collaborative and supportive environment. We are open to Members 24/7, and have a huge range of resources including woodworking, metalworking, 3D">
+{% endblock %}
+
+{% block contents %}
+<div class="container">
+<p>Before contacting us, please check this short FAQ in case it answers your question.</p>
+<dl>
+    <dt>Are you still open? / Are your open evenings still on? / Can I come take a look?</dt>
+    <dd>Yes! We hold regular open evenings throughout the year, where you can have a tour of the facilities and become a member if you wish. Full details <a href="{{ url_for('visit') }}">here</a>.</dd>
+    <dt>I only need to use this one tool, could I just quickly…?</dt>
+    <dd>Sorry, due to our membership-based structure and insurance stipulations, our facilities are only available to our members, and cannot be hired or used on a one-off basis.</dd>
+    <dt>I need to start my project urgently! Can I join and start working immediately?</dt>
+    <dd><p>Before you can join, you need to come to an open evening and take a tour. You can then sign up and become a member straight away, if you want to!</p>    <p>But please note that some of our equipment also requires you to undertake a safety induction before you can use it. These inductions are run by volunteers in their spare time, and can take a little while to arrange. Because of this, we might not be best choice if you need immediate use of the facilities.</p></dd>
+    <dt>Can you fix my…?</dt>
+    <dd>This is not a service we aim to provide, you may be better off trying one of Bristol's numerous Repair Cafes.</dd>
+</dl>
+<hr/>
+<p>If your question is not answered above, you can use the form below to send us an email. Please note that as Bristol Hackspace is 100% volunteer run, we may not be able to reply instantly, but will get back to you as soon as we can.</p>
+
+</div>
+{% endblock %}
