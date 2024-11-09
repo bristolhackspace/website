@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% import 'wtforms.html' as wtf %}
+
 {% block metatags %}
 <title>Contact Us - Bristol Hackspace</title>
 {% endblock %}
@@ -19,6 +21,16 @@
 </dl>
 <hr/>
 <p>If your question is not answered above, you can use the form below to send us an email. Please note that as Bristol Hackspace is 100% volunteer run, we may not be able to reply instantly, but will get back to you as soon as we can.</p>
-
+<form method="POST" >
+    <div>
+        {{ form.hidden_tag() }}
+        {{ wtf.input(form.name, form) }}
+        {{ wtf.input(form.email, form) }}
+        {{ wtf.input(form.subject, form) }}
+        {{ wtf.input(form.message, form) }}
+        {{ wtf.input(form.privacy, form) }}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
 </div>
 {% endblock %}
