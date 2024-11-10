@@ -1,7 +1,8 @@
-{% macro input(field, form) -%}
+
+{% macro input_box(field, form) -%}
 <div class="form-field">
-    {{ field.label }}
-    
+    {{ field.label(class="form-label") }}
+
 {% if field.errors %}
 {{ field(class="form-control is-invalid", **kwargs) }}
 {% for error in field.errors %}
@@ -11,4 +12,27 @@
 {{ field(class="form-control", **kwargs) }}
 {% endif %}
 </div>
+{%- endmacro %}
+
+{% macro input_check(field, form) -%}
+<div class="form-field">
+{% if field.errors %}
+{{ field(class="form-check-control is-invalid", **kwargs) }}
+{% else %}
+{{ field(class="form-check-control", **kwargs) }}
+{% endif %}
+{{ field.label(class="form-check-label") }}
+{% for error in field.errors %}
+    <p class="invalid-feedback">{{ error }}</p>
+{% endfor %}
+
+</div>
+{%- endmacro %}
+
+{% macro input(field, form) -%}
+{% if field.type == "BooleanField" %}
+{{ input_check(field, form) }}
+{% else %}
+{{ input_box(field, form) }}
+{% endif %}
 {%- endmacro %}
