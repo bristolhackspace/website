@@ -1,8 +1,10 @@
+from collections import defaultdict
 import os
 import logging
 import tomllib
 
-from flask import Flask, render_template
+from datetime import datetime, timezone, timedelta
+from flask import Flask, render_template, request
 from flask_wtf import FlaskForm
 from markupsafe import Markup
 from wtforms import (
@@ -21,6 +23,8 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SQLALCHEMY_DATABASE_URI="postgresql+psycopg2://postgres:postgres@localhost:5432/website",
+        MESSAGE_RATELIMIT_WINDOW=timedelta(minutes=10).total_seconds(),
+        MESSAGE_RATELIMIT_COUNT=3,
     )
     if test_config is None:
         app.config.from_file("config.toml", load=tomllib.load, text=False)
@@ -74,8 +78,76 @@ def create_app(test_config=None):
         form = ContactForm()
 
         if form.validate_on_submit():
+            message = Message(
+                name=form.name.data,
+                email=form.email.data,
+                subject=form.subject.data,
+                message=form.message.data,
+                ip_addr=request.remote_addr,
+                user_agent=request.user_agent.string,
+                honeypot_triggered=form.honeypot.data,
+                received=datetime.now(timezone.utc)
+            )
+            db.session.add(message)
+            db.session.commit()
             return render_template("pages/contact_success.html")
 
         return render_template("pages/contact.html", form=form)
+
+    @app.cli.command("process-emails")
+    def process_emails(name):
+        query = db.session.query(Message).where(Message.processed == False).order_by(Message.received)
+        messages: list[Message] = db.session.execute(query).scalars()
+
+        now = datetime.now(timezone.utc)
+
+        messages_by_ip = defaultdict(list)
+
+        ratelimit_window = app.config["MESSAGE_RATELIMIT_WINDOW"]
+        ratelimit_max_count = app.config["MESSAGE_RATELIMIT_WINDOW"]
+
+        for message in messages:
+            messages_by_ip[message.ip_addr].append(message)
+            if (now - message.received).total_seconds() < ratelimit_window:
+                continue
+
+            message.processed = True
+
+            if message.honeypot_triggered:
+                message.rejected = True
+                continue
+
+
+        for _ip, messages in messages_by_ip.items():
+            window_head = iter(messages)
+            window_start_time = next(window_head).received
+            window_count = 0
+
+            reject=False
+
+            for message in messages:
+                # Increment ratelimit window if message was received outside of it
+                while (message.received - window_start_time).total_seconds() > ratelimit_window:
+                    window_count -= 1
+                    window_start_time = next(window_head).received
+
+                window_count += 1
+
+                if window_count >= ratelimit_max_count:
+                    reject = True
+                    break
+
+            if reject:
+                for message in messages:
+                    message.rejected = True
+
+
+        for message in messages:
+            if message.processed == False or message.rejected == True:
+                continue
+            print(f"Sending message '{message.subject}'")
+
+
+
 
     return app

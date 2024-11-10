@@ -48,8 +48,5 @@ class Message(db.Model):
     user_agent: Mapped[str] = mapped_column(types.String(120))
     honeypot_triggered: Mapped[bool] = mapped_column(types.Boolean)
     received: Mapped[datetime.datetime] = mapped_column(UTCDateTime)
-    sent: Mapped[Optional[datetime.datetime]] = mapped_column(UTCDateTime)
-
-    __table_args__ = (
-        db.Index('message_honeypot_triggered_sent_idx', honeypot_triggered, sent),
-    )
+    processed: Mapped[bool] = mapped_column(types.Boolean, server_default=expression.false(), index=True)
+    rejected: Mapped[bool] = mapped_column(types.Boolean, server_default=expression.false())
