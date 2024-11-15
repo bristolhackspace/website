@@ -1,12 +1,16 @@
 from collections import defaultdict
+from email.mime.text import MIMEText
 import os
 import logging
+import smtplib
+import ssl
 import tomllib
 
 from datetime import datetime, timezone, timedelta
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, g
 from flask_wtf import FlaskForm
 from markupsafe import Markup
+from mosparo_api_client import Client as MosparoClient
 from wtforms import (
     BooleanField,
     EmailField,
@@ -15,8 +19,6 @@ from wtforms import (
     ValidationError,
 )
 from wtforms.validators import InputRequired, Length, DataRequired
-
-from hackspace_website.models import db, Message
 
 
 def create_app(test_config=None):
@@ -31,9 +33,7 @@ def create_app(test_config=None):
     else:
         app.config.from_mapping(test_config)
 
-    from . import models
-
-    models.init_app(app)
+    mosparo_client = MosparoClient(app.config["MOSPARO_HOST"], app.config["MOSPARO_PUBLIC_KEY"], app.config["MOSPARO_PRIVATE_KEY"])
 
     @app.route("/")
     def home():
@@ -46,106 +46,59 @@ def create_app(test_config=None):
     class ContactForm(FlaskForm):
         name = StringField(
             "Name",
-            name="iy5ku",
-            validators=[InputRequired(), Length(max=Message.name.type.length)],
+            validators=[InputRequired(), Length(max=200)],
         )
         email = EmailField(
             "Email",
-            name="oeu2b",
-            validators=[InputRequired(), Length(max=Message.email.type.length)],
+            validators=[InputRequired(), Length(max=200)],
         )
         subject = StringField(
             "Subject",
-            name="tx5jm",
-            validators=[InputRequired(), Length(max=Message.subject.type.length)],
+            validators=[InputRequired(), Length(max=500)],
         )
         message = TextAreaField(
             "Message",
-            name="fc2ah",
-            validators=[InputRequired(), Length(max=Message.message.type.length)],
+            validators=[InputRequired(), Length(max=5000)],
         )
         privacy = BooleanField(
             Markup(
-                'I have read and agree to the terms of the <a href="https://wiki.bristolhackspace.org/policies/privacy">Privacy Policy</a>'
+                'I have read and agree to the terms of the <a href="https://wiki.bristolhackspace.org/policies/privacy" target="_blank"  rel="noopener noreferrer">Privacy Policy</a>'
             ),
-            name="um90x",
             validators=[DataRequired()],
         )
-        honeypot = BooleanField("Fax only", name="contact_me_by_fax_only")
 
     @app.route("/contact", methods=["GET", "POST"])
     def contact():
         form = ContactForm()
 
-        if form.validate_on_submit():
-            message = Message(
-                name=form.name.data,
-                email=form.email.data,
-                subject=form.subject.data,
-                message=form.message.data,
-                ip_addr=request.remote_addr,
-                user_agent=request.user_agent.string,
-                honeypot_triggered=form.honeypot.data,
-                received=datetime.now(timezone.utc)
-            )
-            db.session.add(message)
-            db.session.commit()
-            return render_template("pages/contact_success.html")
+        if request.method == "POST":
+            formdata = request.form.copy()
+            mosparo_submit_token = formdata['_mosparo_submitToken']
+            mosparo_validation_token = formdata['_mosparo_validationToken']
+            result = mosparo_client.verify_submission(formdata, mosparo_submit_token, mosparo_validation_token)
+            if result.is_submittable():
+                if form.validate_on_submit():
+                    context = ssl.create_default_context()
+                    with smtplib.SMTP_SSL(app.config["SMTP_SERVER"], app.config["SMTP_PORT"], context=context) as smtp_client:
+                        smtp_client.login(app.config["SMTP_EMAIL"], app.config["SMTP_PASSWORD"])
+                        sender_email = app.config["SMTP_EMAIL"]
+                        receiver_email = app.config["SMTP_EMAIL"]
+                        reply_to = form.email.data.strip()
+
+                        text = f"{form.name.data.strip()} just sent a message through the contact form:\n\n" + form.message.data
+
+                        message = MIMEText(text, "plain")
+                        message["Subject"] = f"New message via contact form: {form.subject.data.strip()}"
+                        message["From"] = sender_email
+                        message["To"] = receiver_email
+                        message['reply-to'] = reply_to
+                        smtp_client.sendmail(sender_email, receiver_email, message.as_string())
+
+                    return render_template("pages/contact_success.html")
+            else:
+                return render_template("pages/contact_fail.html")
 
         return render_template("pages/contact.html", form=form)
-
-    @app.cli.command("process-emails")
-    def process_emails(name):
-        query = db.session.query(Message).where(Message.processed == False).order_by(Message.received)
-        messages: list[Message] = db.session.execute(query).scalars()
-
-        now = datetime.now(timezone.utc)
-
-        messages_by_ip = defaultdict(list)
-
-        ratelimit_window = app.config["MESSAGE_RATELIMIT_WINDOW"]
-        ratelimit_max_count = app.config["MESSAGE_RATELIMIT_WINDOW"]
-
-        for message in messages:
-            messages_by_ip[message.ip_addr].append(message)
-            if (now - message.received).total_seconds() < ratelimit_window:
-                continue
-
-            message.processed = True
-
-            if message.honeypot_triggered:
-                message.rejected = True
-                continue
-
-
-        for _ip, messages in messages_by_ip.items():
-            window_head = iter(messages)
-            window_start_time = next(window_head).received
-            window_count = 0
-
-            reject=False
-
-            for message in messages:
-                # Increment ratelimit window if message was received outside of it
-                while (message.received - window_start_time).total_seconds() > ratelimit_window:
-                    window_count -= 1
-                    window_start_time = next(window_head).received
-
-                window_count += 1
-
-                if window_count >= ratelimit_max_count:
-                    reject = True
-                    break
-
-            if reject:
-                for message in messages:
-                    message.rejected = True
-
-
-        for message in messages:
-            if message.processed == False or message.rejected == True:
-                continue
-            print(f"Sending message '{message.subject}'")
 
 
 

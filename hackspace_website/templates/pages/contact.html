@@ -2,9 +2,7 @@
 
 {% import 'wtforms.html' as wtf %}
 
-{% block metatags %}
-<title>Contact Us - Bristol Hackspace</title>
-{% endblock %}
+{% block title %}Contact Us{% endblock %}
 
 {% block contents %}
 <div class="container">
@@ -29,7 +27,20 @@
         {{ wtf.input(form.subject, form) }}
         {{ wtf.input(form.message, form) }}
         {{ wtf.input(form.privacy, form) }}
-        <input type="checkbox" name="{{ form.honeypot.name }}" value="1" style="display:none !important" tabindex="-1" autocomplete="off"/>
+        <div id="mosparo-box"></div>
+
+        <script src="https://mosparo.samp20.com/build/mosparo-frontend.js" defer></script>
+        <script>
+            var m;
+            window.onload = function(){
+                m = new mosparo(
+                    'mosparo-box',
+                    'https://mosparo.samp20.com',
+                    '2d7e3bc0-472b-47ba-b2b8-6b12f7f27261',
+                    '2tbufW9RltMQJ8sZQSf_B5P9vJtPZPMKwD5qg8bZRwQ',
+                    {loadCssResource: true});
+            };
+        </script>
         <button type="submit" class="button">Submit</button>
     </div>
 </form>

@@ -182,8 +182,8 @@ dd {
 }
 
 .form-check-label {
-    display: inline-block;
-    margin: var(--row-gap) 0;
+    display: inline;
+    margin: var(--row-gap) var(--col-gap);
 }
 
 .form-control {
@@ -225,4 +225,8 @@ textarea {
 .button:hover {
     background-color: var(--button-hover-color);
     cursor: pointer;
+}
+
+#mosparo-box {
+    margin: var(--row-gap) 0;
 }
