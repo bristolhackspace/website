@@ -45,6 +45,10 @@ def create_app(test_config=None):
     def visit():
         return render_template("pages/visit.html")
 
+    @app.route("/open-day")
+    def open_day():
+        return render_template("pages/open_day.html")
+
     from .views import contact
     app.register_blueprint(contact.bp)
 
