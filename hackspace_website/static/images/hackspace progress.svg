@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="131.06223mm"
+   height="131.32448mm"
+   id="svg11216"
+   version="1.1"
+   inkscape:version="1.0.2-2 (e86c870879, 2021-01-15)"
+   sodipodi:docname="hackspace progress.svg">
+  <title
+     id="title3012">Bristol Hackspace Logo v1.1</title>
+  <sodipodi:namedview
+     inkscape:document-units="mm"
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="138.21972"
+     inkscape:cy="456.89908"
+     inkscape:current-layer="g1416"
+     showgrid="false"
+     inkscape:window-width="1334"
+     inkscape:window-height="963"
+     inkscape:window-x="278"
+     inkscape:window-y="137"
+     inkscape:window-maximized="0"
+     inkscape:document-rotation="0"
+     inkscape:snap-global="true"
+     inkscape:object-paths="true"
+     inkscape:snap-bbox="false"
+     inkscape:bbox-nodes="true"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <defs
+     id="defs3">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath1437">
+      <path
+         id="path1439"
+         d="m 583.37723,504.76037 0.11566,-0.01 18.6076,3.7179 18.78795,8.8197 v 11.2398 l -18.78795,8.8197 -18.6076,3.7179 -0.11566,-0.01 -2.10941,16.6966 0.11397,0.02 17.09911,8.2278 16.00384,13.2156 -2.79478,10.8865 -20.39156,3.8712 -18.94783,-1.0272 -0.10902,-0.039 -6.19542,15.648 0.10576,0.047 14.51585,12.2228 12.21459,16.7802 -5.41495,9.8486 -20.71292,-1.3216 -18.09766,-5.7068 -0.0959,-0.064 -9.89202,13.6149 0.091,0.072 11.01929,15.4479 7.65801,19.2914 -7.69409,8.1925 -19.73323,-6.4315 -16.10958,-10.0273 -0.0779,-0.087 -12.96719,10.7274 0.0705,0.093 6.83161,17.7033 2.61936,20.5891 -9.48951,6.0225 -17.51394,-11.1374 -13.10985,-13.7189 -0.0533,-0.1025 -15.22743,7.1652 0.0451,0.1066 2.21435,18.8462 -2.58327,20.594 -10.6889,3.4728 -14.19448,-15.1422 -9.28618,-16.5482 -0.0262,-0.1132 -16.53099,3.153 0.0172,0.1148 -2.54227,18.8052 -7.62277,19.3044 -11.21686,0.7059 -9.98303,-18.1969 -4.87877,-18.3379 0.003,-0.1164 -16.79577,-1.0568 -0.0117,0.1157 -7.13823,17.582 -12.18507,16.8023 -11.0398,-2.1061 -5.1436,-20.1079 -0.16559,-18.9748 0.032,-0.1123 -16.00548,-5.2002 -0.041,0.109 -11.28654,15.2537 -15.98006,13.2443 -10.16996,-4.7853 0.0189,-20.7556 4.55906,-18.4198 0.0582,-0.1001 -14.20923,-9.018 -0.0664,0.096 -14.72572,11.9678 -18.7724,8.8541 -8.65982,-7.1645 5.17966,-20.0988 8.99679,-16.7073 0.0812,-0.083 -11.5202,-12.2679 -0.0877,0.076 -17.23931,7.9294 -20.38417,3.9073 -6.60616,-9.0927 10.01501,-18.1788 12.86881,-13.9453 0.0993,-0.06 -8.10728,-14.7479 -0.10407,0.052 -18.66991,3.3941 -20.71538,-1.2846 -4.13685,-10.4504 14.22154,-15.1168 15.93251,-10.3068 0.11071,-0.034 -4.18521,-16.3006 -0.11319,0.025 -18.92732,-1.3569 -19.74554,-6.3954 -1.40845,-11.1505 17.53444,-11.1062 17.9952,-6.0199 0.11566,-0.01 v -16.8293 l -0.11566,-0.01 -17.9952,-6.02 -17.53444,-11.1062 1.40845,-11.1505 19.74554,-6.3955 18.92732,-1.3568 0.11319,0.025 4.18521,-16.3006 -0.11071,-0.034 -15.93251,-10.3069 -14.22154,-15.1168 4.13685,-10.4503 20.71538,-1.2846 18.66991,3.394 0.10407,0.052 8.10728,-14.7478 -0.0993,-0.06 -12.86881,-13.94528 -10.01501,-18.17883 6.60616,-9.0927 20.38417,3.90731 17.23931,7.92935 0.0877,0.0762 11.5202,-12.26788 -0.0812,-0.0828 -8.99679,-16.70725 -5.17966,-20.09887 8.65982,-7.16446 18.7724,8.85412 14.72572,11.96783 0.0664,0.0959 14.20923,-9.01807 -0.0582,-0.10004 -4.55906,-18.41985 -0.0189,-20.75555 10.16996,-4.78533 15.98006,13.2443 11.28654,15.25369 0.041,0.10902 16.00548,-5.20017 -0.032,-0.11228 0.16559,-18.97488 5.1436,-20.1079 11.0398,-2.10611 12.18507,16.80234 7.13823,17.582 0.0117,0.11566 16.79577,-1.05677 -0.003,-0.11644 4.87877,-18.33787 9.98303,-18.19688 11.21686,0.70586 7.62277,19.30447 2.54227,18.80516 -0.0172,0.11475 16.53099,3.15305 0.0262,-0.11306 9.28618,-16.54819 14.19448,-15.14221 10.6889,3.47279 2.58327,20.59405 -2.21435,18.84615 -0.0451,0.10655 15.22743,7.16528 0.0533,-0.1025 13.10985,-13.71899 17.51394,-11.13734 9.48951,6.02243 -2.61936,20.58912 -6.83161,17.70335 -0.0705,0.0926 12.96719,10.72743 0.0779,-0.0869 16.10958,-10.0273 19.73323,-6.43154 7.69409,8.19252 -7.65801,19.29135 -11.01929,15.448 -0.091,0.072 9.89202,13.61486 0.0959,-0.0639 18.09766,-5.70681 20.71292,-1.32156 5.41495,9.84859 -12.21459,16.78023 -14.51585,12.2228 -0.10576,0.047 6.19542,15.648 0.10902,-0.039 18.94783,-1.0273 20.39156,3.8713 2.79478,10.8864 -16.00384,13.2156 -17.09911,8.2278 -0.11397,0.02 z"
+         style="fill:#f08818;fill-opacity:1;stroke:none;stroke-width:0.999997"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+  </defs>
+  <metadata
+     id="metadata4">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>Bristol Hackspace Logo v1.1</dc:title>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by/4.0/" />
+        <dc:date>2012-03-22</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Barney Livingston</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:description />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/by/4.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Notice" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Attribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-125.53514,-274.73048)">
+    <g
+       id="g1435"
+       clip-path="url(#clipPath1437)"
+       inkscape:export-filename="C:\Users\sampa\Pictures\hackspace progress2.png"
+       inkscape:export-xdpi="57.946522"
+       inkscape:export-ydpi="57.946522">
+      <g
+         id="g1416"
+         clip-path="none">
+        <circle
+           style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;stop-color:#000000"
+           id="path1205-9-7-1-4-3-6-3-9"
+           cx="373.21179"
+           cy="522.90271"
+           r="267.85715" />
+        <path
+           style="fill:#ffafc8;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;stop-color:#000000"
+           id="path1205-9-7-1-4-3-6-3"
+           sodipodi:type="arc"
+           sodipodi:cx="373.21179"
+           sodipodi:cy="522.90271"
+           sodipodi:rx="267.85715"
+           sodipodi:ry="267.85715"
+           sodipodi:start="5.6548668"
+           sodipodi:end="0"
+           sodipodi:arc-type="slice"
+           d="m 589.91278,365.46023 a 267.85715,267.85715 0 0 1 51.15616,157.44248 H 373.21179 Z" />
+        <path
+           style="fill:#74d7ee;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;stop-color:#000000"
+           id="path1205-9-7-1-4-3-6"
+           sodipodi:type="arc"
+           sodipodi:cx="373.21179"
+           sodipodi:cy="522.90271"
+           sodipodi:rx="267.85715"
+           sodipodi:ry="267.85715"
+           sodipodi:start="5.0265482"
+           sodipodi:end="5.6548668"
+           sodipodi:arc-type="slice"
+           d="m 455.98419,268.15542 a 267.85715,267.85715 0 0 1 133.92859,97.30481 L 373.21179,522.90271 Z" />
+        <path
+           style="fill:#613915;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;stop-color:#000000"
+           id="path1205-9-7-1-4-3"
+           sodipodi:type="arc"
+           sodipodi:cx="373.21179"
+           sodipodi:cy="522.90271"
+           sodipodi:rx="267.85715"
+           sodipodi:ry="267.85715"
+           sodipodi:start="4.3982297"
+           sodipodi:end="5.0265482"
+           sodipodi:arc-type="slice"
+           d="m 290.43938,268.15543 a 267.85715,267.85715 0 0 1 165.54482,-1e-5 l -82.77241,254.74729 z" />
+        <path
+           style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;stop-color:#000000"
+           id="path1205-9-7-1-4"
+           sodipodi:type="arc"
+           sodipodi:cx="373.21179"
+           sodipodi:cy="522.90271"
+           sodipodi:rx="267.85715"
+           sodipodi:ry="267.85715"
+           sodipodi:start="3.7699112"
+           sodipodi:end="4.3982297"
+           sodipodi:arc-type="slice"
+           d="m 156.51081,365.46023 a 267.85715,267.85715 0 0 1 133.92857,-97.30481 l 82.77241,254.74729 z" />
+        <path
+           style="fill:#750787;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;stop-color:#000000"
+           id="path1205-9-7-1-8"
+           sodipodi:type="arc"
+           sodipodi:cx="373.21179"
+           sodipodi:cy="522.90271"
+           sodipodi:rx="267.85715"
+           sodipodi:ry="267.85715"
+           sodipodi:start="3.1415927"
+           sodipodi:end="3.7699112"
+           sodipodi:arc-type="slice"
+           d="M 105.35464,522.90271 A 267.85715,267.85715 0 0 1 156.51081,365.46023 L 373.21179,522.90271 Z" />
+        <path
+           style="fill:#004dff;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;stop-color:#000000"
+           id="path1205-9-7-1-5"
+           sodipodi:type="arc"
+           sodipodi:cx="373.21179"
+           sodipodi:cy="522.90271"
+           sodipodi:rx="267.85715"
+           sodipodi:ry="267.85715"
+           sodipodi:start="2.5132741"
+           sodipodi:end="3.1415927"
+           sodipodi:arc-type="slice"
+           d="M 156.51081,680.3452 A 267.85715,267.85715 0 0 1 105.35464,522.90271 h 267.85715 z" />
+        <path
+           style="fill:#008026;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;stop-color:#000000"
+           id="path1205-9-7-1"
+           sodipodi:type="arc"
+           sodipodi:cx="373.21179"
+           sodipodi:cy="522.90271"
+           sodipodi:rx="267.85715"
+           sodipodi:ry="267.85715"
+           sodipodi:start="1.8849556"
+           sodipodi:end="2.5132741"
+           sodipodi:arc-type="slice"
+           d="M 290.43938,777.64999 A 267.85715,267.85715 0 0 1 156.51081,680.34519 L 373.21179,522.90271 Z" />
+        <path
+           style="fill:#ffed00;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;stop-color:#000000"
+           id="path1205-9-7"
+           sodipodi:type="arc"
+           sodipodi:cx="373.21179"
+           sodipodi:cy="522.90271"
+           sodipodi:rx="267.85715"
+           sodipodi:ry="267.85715"
+           sodipodi:start="1.2566371"
+           sodipodi:end="1.8849556"
+           sodipodi:arc-type="slice"
+           d="m 455.98419,777.65 a 267.85715,267.85715 0 0 1 -165.54481,0 l 82.77241,-254.74729 z" />
+        <path
+           style="fill:#ff8c00;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;stop-color:#000000"
+           id="path1205-9"
+           sodipodi:type="arc"
+           sodipodi:cx="373.21179"
+           sodipodi:cy="522.90271"
+           sodipodi:rx="267.85715"
+           sodipodi:ry="267.85715"
+           sodipodi:start="0.62831853"
+           sodipodi:end="1.2566371"
+           sodipodi:arc-type="slice"
+           d="M 589.91278,680.34519 A 267.85715,267.85715 0 0 1 455.9842,777.65 L 373.21179,522.90271 Z" />
+        <path
+           style="fill:#e40303;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;stop-color:#000000"
+           id="path1205"
+           sodipodi:type="arc"
+           sodipodi:cx="373.21179"
+           sodipodi:cy="522.90271"
+           sodipodi:rx="267.85715"
+           sodipodi:ry="267.85715"
+           sodipodi:start="0"
+           sodipodi:end="0.62831853"
+           sodipodi:arc-type="slice"
+           d="M 641.06894,522.90271 A 267.85715,267.85715 0 0 1 589.91278,680.34519 L 373.21179,522.90271 Z" />
+      </g>
+    </g>
+    <path
+       id="path240-4"
+       d="m 373.20871,714.22559 -59.93252,-59.93252 10.22462,-10.22462 -71.4525,-71.45712 -10.22463,10.22924 -59.93251,-59.92791 89.84115,-89.84577 59.93713,59.92791 -19.51806,19.52267 12.26217,12.26678 50.67135,-50.67596 -12.26217,-12.26217 -18.84963,18.84963 -59.93713,-59.93252 89.17273,-89.17272 59.93252,59.93251 -10.22002,10.22463 71.44329,71.4525 10.22923,-10.22462 59.93713,59.93713 -89.17273,89.16812 -59.93712,-59.93252 18.84963,-18.84963 -9.97108,-9.97109 -50.67136,50.67597 9.96648,9.96647 19.51805,-19.51806 59.94174,59.94174 z"
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\sampa\Pictures\hackspace progress2.png"
+       inkscape:export-xdpi="57.946522"
+       inkscape:export-ydpi="57.946522" />
+  </g>
+</svg>
