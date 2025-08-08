@@ -1,5 +1,5 @@
 from flask import (
-    Blueprint, render_template, request
+    Blueprint, render_template, request, current_app
 )
 from flask_wtf import FlaskForm
 from markupsafe import Markup
@@ -53,4 +53,10 @@ def index():
         else:
             return render_template(f"pages/contact_fail.html")
 
-    return render_template("pages/contact.html", form=form)
+    return render_template(
+        "pages/contact.html",
+        form=form,
+        mosparo_host=current_app.config["MOSPARO_HOST"],
+        mosparo_uuid=current_app.config["MOSPARO_UUID"],
+        mosparo_public_key=current_app.config["MOSPARO_PUBLIC_KEY"]
+    )

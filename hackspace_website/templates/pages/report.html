@@ -27,15 +27,15 @@
         {{ wtf.input(form.privacy, form) }}
         <div id="mosparo-box"></div>
 
-        <script src="https://mosparo.samp20.com/build/mosparo-frontend.js" defer></script>
+        <script src="{{ mosparo_host }}/build/mosparo-frontend.js" defer></script>
         <script>
             var m;
             window.onload = function(){
                 m = new mosparo(
                     'mosparo-box',
-                    'https://mosparo.samp20.com',
-                    '2d7e3bc0-472b-47ba-b2b8-6b12f7f27261',
-                    '2tbufW9RltMQJ8sZQSf_B5P9vJtPZPMKwD5qg8bZRwQ',
+                    '{{ mosparo_host }}',
+                    '{{ mosparo_uuid }}',
+                    '{{ mosparo_public_key }}',
                     {loadCssResource: true});
             };
         </script>
