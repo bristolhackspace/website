@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% import 'wtforms.html' as wtf %}
+
+{% block title %}Signup{% endblock %}
+
+{% block metatags %}
+<meta name="robots" content="noindex"/>
+{% endblock %}
+
+{% block contents %}
+<div class="container">
+<p>Thanks for coming and taking a look around Bristol Hackspace! If you're interesting in joining our community, the next steps are:</p>
+
+<h2>1. Read and complete the form below.</h2>
+<p>You will then be redirected to the “Go-Cardless” website to setup your Direct Debit.</p>
+<h2>2. Pay a one-off payment of £5 for your keycard.</h2>
+<p>This can be made via Chip & Pin/Contactless during your joining session.</p>
+<h2>3. Come to one of our joining sessions, and bring ID.</h2>
+<p>If you have just finished your tour and have photo ID and proof of address on you then, most of the time, we will able able to complete your joining session then and there without you needing to return another time. Otherwise our joining sessions take place as advertised in the Hackspace on your first visit. You'll need to bring photo ID and proof of address (drivers licence is fine for both).</p>
+<p>We will check your application, check your ID, and check your Direct Debit is setup.</p>
+<p>If everything is in order, we will give you a quick induction and a keycard to the building, and you're good to go!</p>
+<p>As a member, you will have:</p>
+<ul>
+    <li>Access to the Hackspace 24/7</li>
+    <li>Use of our tools, equipment and components</li>
+    <li>Somewhere (other than your kitchen table) to work on projects and store stuff</li>
+    <li>A community of people committed to the open sharing of knowledge</li>
+    <li>A say in how the Hackspace is run</li>
+</ul>
+<p>Please read the following overview of our terms and conditions and answer the question below in order to continue:</p>
+<ol start="0">
+    <li>
+        <p>Don't be on Fire!</p>
+        <p>Your safety and the safety of others is your responsibility, so you must always consider the risks and hazards of your actions, and challenge unsafe behaviour in others. Wear appropriate safety gear. Report all incidents.</p>
+    </li>
+    <li>
+        <p>Pay Monthly Membership.</p>
+        <p>To participate in Hackspace and to use Hackspace's stuff, pay a monthly membership fee by bank transfer.</p>
+    </li>
+    <li>
+        <p>Be Excellent to Each-Other.</p>
+        <p>Hackspace is an inclusive environment, and we will not tolerate any behaviour that we deem to be harassment, bullying, or discrimination.</p>
+    </li>
+    <li>
+        <p>Give Back to Hackspace.</p>
+        <p>Hackspace doesn't have paid staff and relies on members to keep it clean, safe, and running smoothly. Tidy up after yourself, and give some time back in proportion to the usage you get from the space.</p>
+    </li>
+    <li>
+        <p>Supervise Guests.</p>
+        <p>Guests, visitors, children, and even pets are welcome, but must be supervised by a Hackspace member who accepts responsibility for them.</p>
+    </li>
+    <li>
+        <p>Do Not Hack Means Do Not Hack.</p>
+        <p>Do not hack (or remove) Hackspace's infrastructure and tools, or other member's possessions. Keep your stuff safe from hacking by only storing it in a project box or in the materials rack.</p>
+    </li>
+    <li>
+        <p>Donate Intelligently.</p>
+        <p>Hackspace welcomes donations of quality tools, useful components, and interesting stuff to hack, but not junk.</p>
+    </li>
+    <li>
+        <p>Be Inducted.</p>
+        <p>Do not use any tool you are not comfortable and confident using. Formal inductions are mandatory to use some of our more dangerous or costly machinery.</p>
+    </li>
+    <li>
+        <p>Be Legal.</p>
+        <p>Abide by the law when in Hackspace. Do not make controlled substances (such as drugs), illegal items (such as prohibited weapons), or attempt unauthorised access to computer systems (the other type of hacking).</p>
+    </li>
+    <li>
+        <p>Follow Meridian Studios' Rules Too.</p>
+        <p>Hackspace is a tenant of Meridian Studios, so you must follow Meridian's rules on communal areas, waste, and security. Check all doors and windows are locked before you leave Hackspace.</p>
+    </li>
+
+</ol>
+
+<form method="POST" class="form">
+    <div>
+        {{ form.hidden_tag() }}
+        {{ wtf.input(form.visited, form) }}
+        {{ wtf.input(form.over18, form) }}
+        {{ wtf.input(form.terms, form) }}
+        {{ wtf.input(form.privacy, form) }}
+
+        {{ wtf.input(form.recommended, form) }}
+
+        <details>
+            <summary>Concessions options</summary>
+            <p>We want everyone to be able to access Hackspace, no matter what their circumstances. We encourage that you make our recommended monthly payment of £15 if you can. If this is unaffordable you can also join using our concession option below, or come and discuss with us.</p>
+            {{ wtf.input(form.reduced, form) }}
+        </details>
+        <p><strong>Please note that as Bristol Hackspace is 100% volunteer run, admin can sometimes take up to a full week or more. Please be patient!</strong></p>
+    </div>
+</form>
+</div>
+{% endblock %}

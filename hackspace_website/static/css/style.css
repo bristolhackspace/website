@@ -215,6 +215,7 @@ textarea {
 }
 
 .button {
+    -webkit-appearance: none;
     line-height: 4.0rem;
     padding: 0 2.0rem;
     border: none;
@@ -229,4 +230,8 @@ textarea {
 
 #mosparo-box {
     margin: var(--row-gap) 0;
+}
+
+.text-danger {
+    color:  var(--color-error);
 }
