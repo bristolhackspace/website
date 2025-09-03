@@ -24,7 +24,7 @@
 <ul>
     <li>Access to the Hackspace 24/7</li>
     <li>Use of our tools, equipment and components</li>
-    <li>Somewhere (other than your kitchen table) to work on projects and store stuff</li>
+    <li>Somewhere (other than your kitchen table) to work on projects</li>
     <li>A community of people committed to the open sharing of knowledge</li>
     <li>A say in how the Hackspace is run</li>
 </ul>
@@ -81,14 +81,7 @@
         {{ wtf.input(form.terms, form) }}
         {{ wtf.input(form.privacy, form) }}
 
-        {{ wtf.input(form.recommended, form) }}
-
-        <details>
-            <summary>Concessions options</summary>
-            <p>We want everyone to be able to access Hackspace, no matter what their circumstances. We encourage that you make our recommended monthly payment of £15 if you can. If this is unaffordable you can also join using our concession option below, or come and discuss with us.</p>
-            {{ wtf.input(form.reduced, form) }}
-        </details>
-        <p><strong>Please note that as Bristol Hackspace is 100% volunteer run, admin can sometimes take up to a full week or more. Please be patient!</strong></p>
+        <button type="submit" class="button btn-signup">Continue to payment options</button>
     </div>
 </form>
 </div>

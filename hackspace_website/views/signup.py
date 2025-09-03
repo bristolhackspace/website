@@ -1,5 +1,5 @@
 from flask import (
-    Blueprint, render_template, redirect, current_app
+    Blueprint, render_template, redirect, current_app, url_for
 )
 from flask_wtf import FlaskForm
 from markupsafe import Markup
@@ -30,19 +30,36 @@ class SignupForm(FlaskForm):
             ),
             validators=[DataRequired()],
         )
-        recommended = SubmitField("Recommended payment of £15 per month")
-        reduced = SubmitField("Reduced payment of £5 per month")
+        recommended = SubmitField("Standard payment of £15 per month")
+        reduced = SubmitField("Supported payment of £5 per month")
+        supporter = SubmitField("Supporter payment of £25 per month")
+
+class TierForm(FlaskForm):
+    recommended = SubmitField("Standard payment of £15 per month")
+    reduced = SubmitField("Supported payment of £5 per month")
+    supporter = SubmitField("Supporter payment of £25 per month")
 
 @bp.route("/", methods=["GET", "POST"])
 def index():
     form = SignupForm()
 
     if form.validate_on_submit():
+        return redirect(url_for('.tiers'))
+    return render_template("pages/signup.html", form=form)
+
+
+@bp.route("/tiers", methods=["GET", "POST"])
+def tiers():
+    form = TierForm()
+
+    if form.validate_on_submit():
         if form.recommended.data:
             url = current_app.config["RECOMMENDED_PAYMENT_URL"]
         elif form.reduced.data:
             url = current_app.config["REDUCED_PAYMENT_URL"]
+        elif form.supporter.data:
+            url = current_app.config["SUPPORTER_PAYMENT_URL"]
         else:
-            raise BadRequest("Must submit recommended or reduced button")
+            raise BadRequest("Must submit payment tier button")
         return redirect(url)
-    return render_template("pages/signup.html", form=form)
+    return render_template("pages/membership_tiers.html", form=form)

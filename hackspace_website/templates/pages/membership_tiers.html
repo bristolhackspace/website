@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% import 'wtforms.html' as wtf %}
+
+{% block title %}Signup{% endblock %}
+
+{% block metatags %}
+<meta name="robots" content="noindex"/>
+{% endblock %}
+
+{% block contents %}
+<div class="container">
+<form method="POST" class="form">
+    <div>
+        {{ form.hidden_tag() }}
+
+        <h2>Membership Payments</h2>
+        <p>Please select one of the following payment tiers</p>
+
+        <h3>Supporter Tier</h3>
+        <p>If you're able to give more, this level helps strengthen the whole community — it not only supports the space but also makes it possible for others to join at the supported rate.</p>
+        {{ wtf.input(form.supporter, form) }}
+
+        <h3>Standard Tier</h3>
+        <p>This is the level most people choose, and it helps cover the real cost of keeping the space alive and thriving for everyone.</p>
+        {{ wtf.input(form.recommended, form) }}
+
+        <h3>Supported Tier</h3>
+        <p>This option is here for anyone who might find the standard rate difficult. You're just as much a part of the community, and your membership is made possible thanks to others giving a little extra.</p>
+        {{ wtf.input(form.reduced, form) }}
+
+        <p><strong>Please note that as Bristol Hackspace is 100% volunteer run, admin can sometimes take up to a full week or more. Please be patient!</strong></p>
+    </div>
+</form>
+</div>
+{% endblock %}

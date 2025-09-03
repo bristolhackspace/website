@@ -176,6 +176,10 @@ dd {
     margin: calc(var(--row-gap)*2) var(--col-gap);
 }
 
+.form h3 {
+    margin-top: 2rem;
+}
+
 .form-label {
     display: block;
     font-weight: bold;
@@ -219,9 +223,14 @@ textarea {
     -webkit-appearance: none;
     line-height: 4.0rem;
     padding: 0 2.0rem;
+    margin: var(--row-gap) 0;
     border: none;
     border-radius: var(--border-radius);
     background-color: var(--button-color);
+}
+
+.btn-signup {
+    margin-top: 2rem;
 }
 
 .button:hover {

@@ -31,6 +31,7 @@ def create_app(test_config=None):
         MESSAGE_RATELIMIT_COUNT=3,
         RECOMMENDED_PAYMENT_URL="http://example.com/recommended",
         REDUCED_PAYMENT_URL="http://example.com/reduced",
+        SUPPORTER_PAYMENT_URL="http://example.com/supporter"
     )
     if test_config is None:
         app.config.from_file("config.toml", load=tomllib.load, text=False)
