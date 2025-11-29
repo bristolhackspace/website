@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+
+{% block title %}Open Day{% endblock %}
+
+{% block contents %}
+<div class="container">
+    <div class="banner">Sorry we have sold out! Unfortunately the interest was far more than we ever anticipated and we have had to limit tickets to avoid overcrowding. We will look at running more open days in the future.</div>
+    <div class="two-col">
+        <div class="col-content">
+            <p>Join us on Sunday the 31st of August 2025 for our first Open Day in a while! Come see what makes our community and our space tick as well the multitude of tools that could be at your disposal!</p>
+            <p>If you've been trying to join us for a while but keep missing tickets, this is your opportunity!</p>
+            <p>The main activity for the day will be a stamp rally, collect stamps from each of the areas of the Hackspace and you’ll be able to sign up to the space as a reward! (If you want to! If not you can nab a keyring instead)</p>
+
+            <p><strong>Entry from - 11am</strong></p>
+            <p><strong>Last entry - 4:30pm</strong></p>
+            <p>To help us gauge numbers, please reserve a free ticket on <a href="https://www.ticketsource.co.uk/bristol-hackspace/bristol-hackspace-open-day/e-kjyrxz">TicketSource</a>.</p>
+            <p>Please note that we have stairs on entrance and to access other parts of the space.</p>
+        </div>
+        <div class="col-image">
+            <figure class="figure">
+                <img src="{{url_for('static', filename='images/front-door-scaled.jpg')}}" alt="Front door of the hackspace">
+                <figcaption>Front door of the Hackspace</figcaption>
+            </figure>
+        </div>
+    </div>
+</div>
+{% endblock %}
