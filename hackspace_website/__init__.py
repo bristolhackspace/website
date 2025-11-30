@@ -33,7 +33,9 @@ def create_app(test_config=None):
         RECOMMENDED_PAYMENT_URL="http://example.com/recommended",
         REDUCED_PAYMENT_URL="http://example.com/reduced",
         SUPPORTER_PAYMENT_URL="http://example.com/supporter",
-        CMS_OPEN_DAY_URL="http://localhost:8000/api/open-day/test-cms-open-day-2025/"
+        CMS_OPEN_DAY_URL="http://localhost:8000/api/open-day/test-cms-open-day-2025/",
+        CMS_BLOG_LIST_URL="http://localhost:8000/api/blog/",
+        CMS_BLOG_DETAIL_URL="http://localhost:8000/api/blog/{slug}/",
     )
     if test_config is None:
         app.config.from_file("config.toml", load=tomllib.load, text=False)
@@ -80,6 +82,36 @@ def create_app(test_config=None):
             pass
 
         return render_template("pages/open_day.html", open_day=open_day_data)
+
+    @app.route("/blog")
+    def blog_index():
+        cms_url = current_app.config["CMS_BLOG_LIST_URL"]
+        posts = []
+
+        try:
+            resp = requests.get(cms_url, timeout=2)
+            resp.raise_for_status()
+            posts = resp.json()
+        except Exception:
+            # In production you’d log this; here we just show empty list / message
+            posts = []
+
+        return render_template("blog/index.html", posts=posts)
+
+    @app.route("/blog/<slug>")
+    def blog_detail(slug):
+        cms_url = current_app.config["CMS_BLOG_DETAIL_URL"].format(slug=slug)
+
+        post = None
+        try:
+            resp = requests.get(cms_url, timeout=2)
+            resp.raise_for_status()
+            post = resp.json()
+        except Exception:
+            # Could render a 404 or a friendly error page
+            return render_template("blog/not_found.html", slug=slug), 404
+
+        return render_template("blog/detail.html", post=post)
 
     from .views import contact
     app.register_blueprint(contact.bp)

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block contents %}
+<div class="container blog-detail">
+    <article>
+        <h1>{{ post.title }}</h1>
+        {% if post.subtitle %}
+            <h2 class="subtitle">{{ post.subtitle }}</h2>
+        {% endif %}
+
+        <p class="meta">
+            <span class="author">{{ post.author }}</span> ·
+            <span class="date">{{ post.publish_date }}</span>
+        </p>
+
+        {% if post.main_image %}
+            <figure class="main-image">
+                <img src="{{ post.main_image }}" alt="{{ post.title }}">
+            </figure>
+        {% endif %}
+
+        <div class="body">
+            {{ post.body_html | safe }}
+        </div>
+    </article>
+
+    <p><a href="{{ url_for('blog_index') }}">← Back to Blog</a></p>
+</div>
+{% endblock %}
