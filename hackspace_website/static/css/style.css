@@ -284,3 +284,7 @@ textarea {
     padding: 1rem;
     text-align: center;
 }
+
+.banner.open-day {
+    background-color: #fff1d4;
+}
