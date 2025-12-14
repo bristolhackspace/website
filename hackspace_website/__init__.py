@@ -2,11 +2,13 @@ from collections import defaultdict
 from email.mime.text import MIMEText
 import os
 import logging
+import re
 import requests
 import smtplib
 import ssl
 import tomllib
 
+from bs4 import BeautifulSoup
 from datetime import datetime, timezone, timedelta
 from flask import current_app, Flask, redirect, render_template, request, g, url_for
 from flask_wtf import FlaskForm
@@ -23,6 +25,59 @@ from wtforms import (
 from werkzeug.exceptions import BadRequest
 from wtforms.validators import InputRequired, Length, DataRequired
 
+YOUTUBE_ID_RE = re.compile(
+    r"(?:youtube\.com/watch\?v=|youtu\.be/)([A-Za-z0-9_-]{6,})"
+)
+
+def _youtube_iframe(video_id: str) -> str:
+    src = f"https://www.youtube.com/embed/{video_id}"
+    return (
+        '<div class="video-embed">'
+        f'<iframe width="560" height="315" '
+        f'src="{src}" '
+        'title="YouTube video player" '
+        'frameborder="0" '
+        'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" '
+        'referrerpolicy="strict-origin-when-cross-origin" '
+        'allowfullscreen></iframe>'
+        '</div>'
+    )
+
+def embed_youtube_links(html: str) -> str:
+    if not html:
+        return html
+
+    soup = BeautifulSoup(html, "lxml")
+
+    # Replace <a href="youtube...">something</a> with iframe container
+    for a in soup.find_all("a", href=True):
+        href = a["href"]
+        m = YOUTUBE_ID_RE.search(href)
+        if not m:
+            continue
+
+        video_id = m.group(1)
+
+        # If the URL is also in the text, we still replace the whole anchor
+        a.replace_with(BeautifulSoup(_youtube_iframe(video_id), "lxml"))
+
+    # Also handle bare text URLs not wrapped in <a>
+    # (Optional, but nice)
+    for text_node in soup.find_all(string=True):
+        if not text_node or "youtube" not in text_node:
+            continue
+
+        m = YOUTUBE_ID_RE.search(str(text_node))
+        if not m:
+            continue
+
+        video_id = m.group(1)
+        # Replace the text node with an iframe
+        text_node.replace_with(BeautifulSoup(_youtube_iframe(video_id), "lxml"))
+
+    # BeautifulSoup wraps in <html><body> sometimes; return body contents if present
+    body = soup.body
+    return "".join(str(x) for x in (body.contents if body else soup.contents))
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
@@ -111,6 +166,9 @@ def create_app(test_config=None):
             # Could render a 404 or a friendly error page
             return render_template("blog/not_found.html", slug=slug), 404
 
+        # Format youtube links
+        post_body = post.get("body_html", "")
+        post["body_html"] = embed_youtube_links(post_body)
         return render_template("blog/detail.html", post=post)
 
     from .views import contact
