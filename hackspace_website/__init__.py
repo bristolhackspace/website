@@ -79,6 +79,59 @@ def embed_youtube_links(html: str) -> str:
     body = soup.body
     return "".join(str(x) for x in (body.contents if body else soup.contents))
 
+
+def absolutize_cms_media(html: str, cms_base_url: str) -> str:
+    if not html:
+        return html
+    return html.replace('src="/media/', f'src="{cms_base_url}/media/')
+
+# Match /media/... or http(s)://.../media/... ending in a common image extension
+IMAGE_PATH_RE = re.compile(
+    r"^(https?://[^\"'<>\s]+)?/media/[^\"'<>\s]+\.(png|jpg|jpeg|gif|webp|svg)$",
+    re.IGNORECASE,
+)
+
+def _make_img_tag(src: str) -> str:
+    return f'<img class="blog-body-image" src="{src}" alt="">'
+
+def embed_cms_images(html: str, cms_base_url: str) -> str:
+    if not html:
+        return html
+
+    soup = BeautifulSoup(html, "lxml")
+
+    # 1) Replace <a href="/media/...png">...</a> with <img ...>
+    for a in soup.find_all("a", href=True):
+        href = a["href"].strip()
+        if not IMAGE_PATH_RE.match(href):
+            continue
+
+        # absolutize relative /media/... to the CMS base URL
+        if href.startswith("/media/"):
+            href = cms_base_url.rstrip("/") + href
+
+        a.replace_with(BeautifulSoup(_make_img_tag(href), "lxml"))
+
+    # 2) Replace bare text nodes that look like /media/...png with <img ...>
+    for text_node in soup.find_all(string=True):
+        text = (str(text_node) or "").strip()
+        if not text:
+            continue
+
+        if not IMAGE_PATH_RE.match(text):
+            continue
+
+        src = text
+        if src.startswith("/media/"):
+            src = cms_base_url.rstrip("/") + src
+
+        text_node.replace_with(BeautifulSoup(_make_img_tag(src), "lxml"))
+
+    # Return inner HTML (avoid soup wrapping)
+    body = soup.body
+    return "".join(str(x) for x in (body.contents if body else soup.contents))
+
+
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
@@ -88,6 +141,7 @@ def create_app(test_config=None):
         RECOMMENDED_PAYMENT_URL="http://example.com/recommended",
         REDUCED_PAYMENT_URL="http://example.com/reduced",
         SUPPORTER_PAYMENT_URL="http://example.com/supporter",
+        CMS_BASE_URL="http://localhost:8000",
         CMS_OPEN_DAY_URL="http://localhost:8000/api/open-day/test-cms-open-day-2025/",
         CMS_BLOG_LIST_URL="http://localhost:8000/api/blog/",
         CMS_BLOG_DETAIL_URL="http://localhost:8000/api/blog/{slug}/",
@@ -166,9 +220,9 @@ def create_app(test_config=None):
             # Could render a 404 or a friendly error page
             return render_template("blog/not_found.html", slug=slug), 404
 
-        # Format youtube links
-        post_body = post.get("body_html", "")
-        post["body_html"] = embed_youtube_links(post_body)
+        post["body_html"] = post.get("body_html", "")
+        post["body_html"] = embed_cms_images(post["body_html"], current_app.config["CMS_BASE_URL"])
+        post["body_html"] = embed_youtube_links(post["body_html"])
         return render_template("blog/detail.html", post=post)
 
     from .views import contact
