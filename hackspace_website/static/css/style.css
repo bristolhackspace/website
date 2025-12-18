@@ -288,3 +288,21 @@ textarea {
 .banner.open-day {
     background-color: #fff1d4;
 }
+
+.video-embed {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+}
+  
+.video-embed iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.blog-body-image { max-width: 100%; height: auto; }

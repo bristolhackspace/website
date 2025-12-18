@@ -2,6 +2,8 @@
 
 The website is built using Flask and uses mosparo spam detection for forms.
 
+A blog section is provided using content authored in a Django CMS that is available at this [repository](https://github.com/bristolhackspace/website-django-cms).
+
 ## Prerequisites
 
 To run this code locally it is assumed you have installed:
