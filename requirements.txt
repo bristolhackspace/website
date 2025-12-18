@@ -1,4 +1,6 @@
+beautifulsoup4==4.14.3
 Flask==3.1.0
 Flask-WTF==1.2.2
-pytz
+lxml==6.0.2
 mosparo-api-client==1.1.2
+pytz
