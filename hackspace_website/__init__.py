@@ -85,9 +85,9 @@ def absolutize_cms_media(html: str, cms_base_url: str) -> str:
         return html
     return html.replace('src="/media/', f'src="{cms_base_url}/media/')
 
-# Match /media/... or http(s)://.../media/... ending in a common image extension
+# Match /media/... OR http(s)://...<anything...>/media/... with common image extensions
 IMAGE_PATH_RE = re.compile(
-    r"^(https?://[^\"'<>\s]+)?/media/[^\"'<>\s]+\.(png|jpg|jpeg|gif|webp|svg)$",
+    r"^(https?://[^\"'<>\s]+)?[^\"'<>\s]*?/media/[^\"'<>\s]+\.(png|jpg|jpeg|gif|webp|svg)$",
     re.IGNORECASE,
 )
 
@@ -100,34 +100,32 @@ def embed_cms_images(html: str, cms_base_url: str) -> str:
 
     soup = BeautifulSoup(html, "lxml")
 
-    # 1) Replace <a href="/media/...png">...</a> with <img ...>
+    def normalize_src(src: str) -> str:
+        src = (src or "").strip()
+        if not src:
+            return src
+        # Convert relative /media/... into absolute CMS URL
+        if src.startswith("/media/"):
+            return cms_base_url.rstrip("/") + src
+        return src  # already absolute (CMS, S3, CDN, etc.)
+
+    # 1) Replace <a href="...media...png">...</a> with <img ...>
     for a in soup.find_all("a", href=True):
-        href = a["href"].strip()
+        href = normalize_src(a["href"])
         if not IMAGE_PATH_RE.match(href):
             continue
-
-        # absolutize relative /media/... to the CMS base URL
-        if href.startswith("/media/"):
-            href = cms_base_url.rstrip("/") + href
-
         a.replace_with(BeautifulSoup(_make_img_tag(href), "lxml"))
 
-    # 2) Replace bare text nodes that look like /media/...png with <img ...>
+    # 2) Replace bare text nodes that look like media image URLs with <img ...>
     for text_node in soup.find_all(string=True):
         text = (str(text_node) or "").strip()
         if not text:
             continue
-
-        if not IMAGE_PATH_RE.match(text):
+        src = normalize_src(text)
+        if not IMAGE_PATH_RE.match(src):
             continue
-
-        src = text
-        if src.startswith("/media/"):
-            src = cms_base_url.rstrip("/") + src
-
         text_node.replace_with(BeautifulSoup(_make_img_tag(src), "lxml"))
 
-    # Return inner HTML (avoid soup wrapping)
     body = soup.body
     return "".join(str(x) for x in (body.contents if body else soup.contents))
 
