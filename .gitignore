@@ -162,3 +162,8 @@ cython_debug/
 #.idea/
 .bash_history
 .python_history
+
+# Certificates count as secrets so shouldn't go on Git.
+*.key
+*.crt
+*.pem

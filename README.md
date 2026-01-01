@@ -116,3 +116,18 @@ WARNING: This is a development server. Do not use it in a production deployment.
 ```
 
 With the server running, in a browser navigate to: http://127.0.0.1:5000
+
+
+# Container!
+
+You can stand up the container with `podman-compose up --build`
+
+you'll need ssl certs if you want to use ssl (and don't have them set up for your dev environment yet). I do NOT recommend using this in production - HS already has a working certificate process.
+```
+# Interactive
+openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -sha256 -days 365 -subj '/CN=localhost' -nodes
+
+# Non-interactive and 10 years expiration
+openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -sha256 -days 3650 -nodes -subj "/C=XX/ST=StateName/L=CityName/O=CompanyName/OU=CompanySectionName/CN=CommonNameOrHostname"
+```
+https://stackoverflow.com/questions/10175812/how-can-i-generate-a-self-signed-ssl-certificate-using-openssl

@@ -1,0 +1,15 @@
+[Unit]
+Description=Hackspace Website
+
+[Container]
+ContainerName=HSWeb
+Image=localhost/website
+UserNS=keep-id
+PublishPort=5000:5000
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target
+

@@ -1,0 +1,19 @@
+[Unit]
+Description=Hackspace web proxy
+#After=website.container
+#Requires=website.container
+
+[Container]
+ContainerName=HSNginx
+Image=nginx:alpine
+Volume=/srv/nginx/nginx.conf:/etc/nginx/nginx.conf
+Volume=./nginx/.ssl:/etc/nginx/.ssl:ro
+PublishPort=8080:80
+PublishPort=8443:443
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target
+
