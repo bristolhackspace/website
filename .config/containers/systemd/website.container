@@ -1,0 +1,16 @@
+[Unit]
+Description=Hackspace Website
+
+[Container]
+ContainerName=website
+Image=localhost/website
+UserNS=keep-id
+# PublishPort=5000:5000
+Network=nginx.network
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target
+

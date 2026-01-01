@@ -1,0 +1,1 @@
+The .gitignore removes any certs you put in this folder, but this is where the docker-compose will look for them.

@@ -136,6 +136,7 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SQLALCHEMY_DATABASE_URI="postgresql+psycopg2://postgres:postgres@localhost:5432/website",
+        # Does the website rely on our internal postgresql instance? if so, change from localhost
         MESSAGE_RATELIMIT_WINDOW=timedelta(minutes=10).total_seconds(),
         MESSAGE_RATELIMIT_COUNT=3,
         RECOMMENDED_PAYMENT_URL="http://example.com/recommended",
