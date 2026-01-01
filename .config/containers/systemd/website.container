@@ -2,10 +2,11 @@
 Description=Hackspace Website
 
 [Container]
-ContainerName=HSWeb
+ContainerName=website
 Image=localhost/website
 UserNS=keep-id
-PublishPort=5000:5000
+# PublishPort=5000:5000
+Network=nginx.network
 
 [Service]
 Restart=always

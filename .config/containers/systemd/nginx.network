@@ -1,0 +1,2 @@
+[Network]
+# This creates a bridge network where containers can resolve each other by name
