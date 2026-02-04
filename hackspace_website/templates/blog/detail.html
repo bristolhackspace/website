@@ -15,9 +15,9 @@
             <span class="date">{{ post.publish_date }}</span>
         </p>
 
-        {% if post.main_image %}
+        {% if post.main_image_url %}
             <figure class="main-image">
-                <img src="{{ post.main_image }}" alt="{{ post.title }}">
+                <img src="{{ post.main_image_url }}" alt="{{ post.title }}">
             </figure>
         {% endif %}
 

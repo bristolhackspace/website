@@ -4,7 +4,7 @@
 
 {% block contents %}
 <div class="container">
-    <h1>Blog</h1>
+    <h1>Latest Updates</h1>
 
     {% if posts %}
         <div class="blog-list">
@@ -24,9 +24,9 @@
                         <span class="date">{{ post.publish_date }}</span>
                     </p>
 
-                    {% if post.main_image %}
+                    {% if post.main_image_url %}
                         <div class="thumbnail">
-                            <img src="{{ post.main_image }}" alt="{{ post.title }}">
+                            <img src="{{ post.main_image_url }}" alt="{{ post.title }}">
                         </div>
                     {% endif %}
 
