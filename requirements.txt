@@ -4,3 +4,5 @@ Flask-WTF==1.2.2
 lxml==6.0.2
 mosparo-api-client==1.1.2
 pytz
+requests==2.32.5
+boto3==1.42.30
