@@ -195,13 +195,15 @@ def create_app(test_config=None):
     @app.route("/blog")
     def blog_index():
         cms_url = current_app.config["CMS_BLOG_LIST_URL"]
+
         posts = []
 
         try:
             resp = requests.get(cms_url, timeout=2)
             resp.raise_for_status()
             posts = resp.json()
-        except Exception:
+        except Exception as e:
+            print(e)
             # In production you’d log this; here we just show empty list / message
             posts = []
 
