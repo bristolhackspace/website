@@ -1,7 +1,9 @@
 from collections import defaultdict
 from email.mime.text import MIMEText
+import boto3
 import os
 import logging
+import mimetypes
 import re
 import requests
 import smtplib
@@ -9,9 +11,12 @@ import ssl
 import tomllib
 
 from bs4 import BeautifulSoup
+from botocore.config import Config
+from botocore.exceptions import ClientError
 from datetime import datetime, timezone, timedelta
-from flask import current_app, Flask, redirect, render_template, request, g, url_for
+from flask import Response, abort, current_app, Flask, redirect, render_template, request, stream_with_context, g, url_for
 from flask_wtf import FlaskForm
+from functools import lru_cache
 from markupsafe import Markup
 from mosparo_api_client import Client as MosparoClient
 from wtforms import (
@@ -24,6 +29,27 @@ from wtforms import (
 )
 from werkzeug.exceptions import BadRequest
 from wtforms.validators import InputRequired, Length, DataRequired
+
+
+@lru_cache(maxsize=1)
+def _s3_client_cached(endpoint_url, access_key, secret_key, region):
+    return boto3.client(
+        "s3",
+        endpoint_url=endpoint_url,
+        aws_access_key_id=access_key,
+        aws_secret_access_key=secret_key,
+        region_name=region,
+        config=Config(s3={"addressing_style": "path"}),
+    )
+
+def _s3_client():
+    cfg = current_app.config
+    return _s3_client_cached(
+        cfg["AWS_S3_ENDPOINT_URL"],
+        cfg["AWS_ACCESS_KEY_ID"],
+        cfg["AWS_SECRET_ACCESS_KEY"],
+        cfg.get("AWS_S3_REGION_NAME", "garage"),
+    )
 
 YOUTUBE_ID_RE = re.compile(
     r"(?:youtube\.com/watch\?v=|youtu\.be/)([A-Za-z0-9_-]{6,})"
@@ -80,16 +106,31 @@ def embed_youtube_links(html: str) -> str:
     return "".join(str(x) for x in (body.contents if body else soup.contents))
 
 
-def absolutize_cms_media(html: str, cms_base_url: str) -> str:
-    if not html:
-        return html
-    return html.replace('src="/media/', f'src="{cms_base_url}/media/')
-
-# Match /media/... or http(s)://.../media/... ending in a common image extension
-IMAGE_PATH_RE = re.compile(
-    r"^(https?://[^\"'<>\s]+)?/media/[^\"'<>\s]+\.(png|jpg|jpeg|gif|webp|svg)$",
+MEDIA_ANYWHERE_RE = re.compile(
+    r"(/media/[^\"'<>\s]+\.(png|jpg|jpeg|gif|webp|svg))$",
     re.IGNORECASE,
 )
+
+def _rewrite_to_public_media(url: str) -> str:
+    if not url:
+        return url
+
+    url = url.strip()
+    m = MEDIA_ANYWHERE_RE.search(url)
+    if not m:
+        return url
+
+    media_path = m.group(1)  # always starts with "/media/..."
+
+    public_base = current_app.config.get("PUBLIC_MEDIA_URL", "/media/").rstrip("/")
+
+    # If PUBLIC_MEDIA_URL already ends with "/media", don't append "/media/..." again.
+    if public_base.endswith("/media"):
+        return f"{public_base}{media_path[len('/media'):]}"  # keep leading slash after /media
+        # e.g. base="http://x/media" + "/blog_body_images/a.png"
+    else:
+        return f"{public_base}{media_path}"
+
 
 def _make_img_tag(src: str) -> str:
     return f'<img class="blog-body-image" src="{src}" alt="">'
@@ -100,34 +141,28 @@ def embed_cms_images(html: str, cms_base_url: str) -> str:
 
     soup = BeautifulSoup(html, "lxml")
 
-    # 1) Replace <a href="/media/...png">...</a> with <img ...>
+    # Rewrite existing <img src="...">
+    for img in soup.find_all("img", src=True):
+        img["src"] = _rewrite_to_public_media(img["src"])
+
+    # Replace <a href="...media..."> with <img ...>
     for a in soup.find_all("a", href=True):
         href = a["href"].strip()
-        if not IMAGE_PATH_RE.match(href):
+        new_src = _rewrite_to_public_media(href)
+        if new_src == href:  # not a media URL
             continue
+        a.replace_with(BeautifulSoup(_make_img_tag(new_src), "lxml"))
 
-        # absolutize relative /media/... to the CMS base URL
-        if href.startswith("/media/"):
-            href = cms_base_url.rstrip("/") + href
-
-        a.replace_with(BeautifulSoup(_make_img_tag(href), "lxml"))
-
-    # 2) Replace bare text nodes that look like /media/...png with <img ...>
+    # Replace bare text nodes that contain a media URL
     for text_node in soup.find_all(string=True):
         text = (str(text_node) or "").strip()
         if not text:
             continue
-
-        if not IMAGE_PATH_RE.match(text):
+        new_src = _rewrite_to_public_media(text)
+        if new_src == text:
             continue
+        text_node.replace_with(BeautifulSoup(_make_img_tag(new_src), "lxml"))
 
-        src = text
-        if src.startswith("/media/"):
-            src = cms_base_url.rstrip("/") + src
-
-        text_node.replace_with(BeautifulSoup(_make_img_tag(src), "lxml"))
-
-    # Return inner HTML (avoid soup wrapping)
     body = soup.body
     return "".join(str(x) for x in (body.contents if body else soup.contents))
 
@@ -226,6 +261,37 @@ def create_app(test_config=None):
         post["body_html"] = embed_cms_images(post["body_html"], current_app.config["CMS_BASE_URL"])
         post["body_html"] = embed_youtube_links(post["body_html"])
         return render_template("blog/detail.html", post=post)
+
+    @app.route("/media/<path:key>")
+    def media_proxy(key: str):
+        # key is like: blog_body_images/foo.png
+        current_app.logger.info("MEDIA_PROXY requested key=%s", key)
+
+        bucket = current_app.config["AWS_STORAGE_BUCKET_NAME"]
+        s3_key = f"media/{key}".lstrip("/")  # matches your django-storages "location": "media"
+
+        current_app.logger.info("S3 key=%s", s3_key)
+        try:
+            obj = _s3_client().get_object(Bucket=bucket, Key=s3_key)
+        except ClientError as e:
+            code = e.response.get("Error", {}).get("Code", "")
+            if code in ("NoSuchKey", "404"):
+                abort(404)
+            abort(502)
+
+        body = obj["Body"]
+
+        # content-type: prefer what S3 reports, else guesstimate
+        content_type = obj.get("ContentType") or mimetypes.guess_type(key)[0] or "application/octet-stream"
+
+        # cache aggressively for public blog images (adjust if you want)
+        headers = {
+            "Content-Type": content_type,
+            "Cache-Control": "public, max-age=86400",
+        }
+
+        # Stream response so you don't load whole file into memory
+        return Response(stream_with_context(body.iter_chunks(chunk_size=8192)), headers=headers)
 
     from .views import contact
     app.register_blueprint(contact.bp)

@@ -37,6 +37,12 @@ MOSPARO_PUBLIC_KEY="0x000"
 MOSPARO_PRIVATE_KEY="0x001"
 MOSPARO_UUID="12345"
 SECRET_KEY='01234567890'
+AWS_ACCESS_KEY_ID='<AWS_ACCESS_KEY_ID>'
+AWS_SECRET_ACCESS_KEY='<AWS_SECRET_ACCESS_KEY>'
+AWS_STORAGE_BUCKET_NAME='<garage-bucket-name>'
+AWS_S3_ENDPOINT_URL='http://127.0.0.1:3900'
+AWS_S3_REGION_NAME='garage'
+PUBLIC_MEDIA_URL="http://127.0.0.1:5000/media/"
 EOF
 ```
 
@@ -45,6 +51,8 @@ Verify the contents of the config.toml
 ```bash
 cat config.toml
 ```
+
+Note: The AWS credentials are required for files that are hosted in a garage bucket.  These updates allow the Hackspace website to reach out to a garage bucket for images that are added in a blog article.
 
 ### Set virtual environment
 
